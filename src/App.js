@@ -6,6 +6,7 @@ import PageNotFound from './pages/PageNotFound'
 import { useState } from 'react'
 import { signOut } from '@firebase/auth'
 import { auth } from './firebase-config'
+import PrivateRoute from './PrivateRoute'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 const App = () => {
@@ -27,14 +28,16 @@ const App = () => {
           <Link to='/login'>Login</Link>
         ) : (
           <>
-            <Link to='/createpost'>Create Post</Link>
+            <Link to='/private/createpost'>Create Post</Link>
             <button onClick={signUserOut}>LogOut</button>
           </>
         )}
       </nav>
       <Routes>
         <Route path='/' element={<Home isAuth={isAuth} />} />
-        <Route path='/createpost' element={<CreatePost isAuth={isAuth} />} />
+        <Route path='/private' element={<PrivateRoute isAuth={isAuth} />}>
+          <Route path='/private/createpost' element={<CreatePost />} />
+        </Route>
         <Route path='/login' element={<Login setIsAuth={setIsAuth} />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
