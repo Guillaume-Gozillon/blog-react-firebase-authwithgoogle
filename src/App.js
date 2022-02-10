@@ -2,6 +2,7 @@ import './App.css'
 import Home from './pages/Home'
 import CreatePost from './pages/CreatePost'
 import Login from './pages/Login'
+import PageNotFound from './pages/PageNotFound'
 import { useState } from 'react'
 import { signOut } from '@firebase/auth'
 import { auth } from './firebase-config'
@@ -35,6 +36,7 @@ const App = () => {
         <Route path='/' element={<Home isAuth={isAuth} />} />
         <Route path='/createpost' element={<CreatePost isAuth={isAuth} />} />
         <Route path='/login' element={<Login setIsAuth={setIsAuth} />} />
+        <Route path='*' element={<PageNotFound />} />
       </Routes>
     </Router>
   )
