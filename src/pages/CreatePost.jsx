@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { addDoc, collection, Timestamp } from '@firebase/firestore'
 import { db, auth, storage } from '../firebase-config'
 import { getDownloadURL, ref, uploadBytesResumable } from '@firebase/storage'
-import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 
 const CreatePost = () => {
@@ -32,9 +31,7 @@ const CreatePost = () => {
       err => {
         console.log(err)
       },
-      test => {
-        console.log(test)
-        setTitle('')
+      () => {
         getDownloadURL(uploadImage.snapshot.ref).then(url => {
           console.log('test', uploadImage)
           addDoc(postsCollectionRef, {
@@ -48,11 +45,9 @@ const CreatePost = () => {
             }
           })
             .then(() => {
-              toast('Article added succes', { type: 'success' })
               setProgress(0)
             })
             .catch(err => {
-              toast('Error occured', { type: 'error' })
               console.log(err)
             })
           setEndsubmit(true)
