@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react'
-import { getDocs, collection, deleteDoc, doc } from '@firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot } from '@firebase/firestore'
 import { db, auth } from '../firebase-config'
 
 const Home = ({ isAuth }) => {
   const [postLists, setPostLists] = useState([])
-  const postsCollectionRef = collection(db, 'posts')
 
   useEffect(() => {
-    const getPosts = async () => {
-      const data = await getDocs(postsCollectionRef)
-      setPostLists(data.docs.map(doc => ({ ...doc.data(), id: doc.id })))
-    }
-    getPosts()
+    const postsCollectionRef = collection(db, 'posts')
+    onSnapshot(postsCollectionRef, snapshot => {
+      setPostLists(snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
+    })
   }, [])
 
   const deletePost = async id => {
@@ -39,10 +37,10 @@ const Home = ({ isAuth }) => {
               )}
             </div>
           </div>
-          <div className='postTextContainer'>
-            {post.postText}
-            <h3>@{post.author.name}</h3>
-          </div>
+          <div className='postTextContainer'>{post.postText}</div>
+          {post.imageUrl && <img src={post.imageUrl} />}
+          <h3>@{post.author.name}</h3>
+          {post.createdAt && <p>{post.createdAt.toDate().toDateString()}</p>}
         </div>
       ))}
     </div>

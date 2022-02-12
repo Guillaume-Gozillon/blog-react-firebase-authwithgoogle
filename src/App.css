@@ -187,3 +187,8 @@ textarea {
   overflow: hidden;
   overflow-y: auto;
 }
+
+img {
+  width: 10rem;
+  border-radius: 1rem;
+}

@@ -1,13 +1,13 @@
 import './App.css'
-import Home from './pages/Home'
-import CreatePost from './pages/CreatePost'
-import Login from './pages/Login'
-import PageNotFound from './pages/PageNotFound'
 import { useState } from 'react'
 import { signOut } from '@firebase/auth'
 import { auth } from './firebase-config'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import PageNotFound from './pages/PageNotFound'
+import CreatePost from './pages/CreatePost'
 import PrivateRoute from './PrivateRoute'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(localStorage.getItem('isAuth'))
@@ -19,9 +19,9 @@ const App = () => {
       window.location.pathname = '/login'
     })
   }
-  console.log(isAuth)
+
   return (
-    <Router>
+    <BrowserRouter>
       <nav>
         <Link to='/'>Home</Link>
         {!isAuth ? (
@@ -41,7 +41,7 @@ const App = () => {
         <Route path='/login' element={<Login setIsAuth={setIsAuth} />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   )
 }
 
